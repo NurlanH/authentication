@@ -10,4 +10,5 @@ export interface IUser{
   balance?:number
   createdAt?:Date
   updatedAt?:Date
+  isDeleted?:boolean
 }

@@ -22,7 +22,7 @@ export class SignUpDTO{
 
   // The telephone number is checked for compliance with the Azerbaijani standard
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   @Matches(/^(994)(50|51|77|70|55|99|60)[0-9]{3}[0-9]{2}[0-9]{2}$/)
   phone:string
 
