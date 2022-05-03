@@ -94,7 +94,7 @@ export class AppService {
     const isUserValid = await this._findUserByEmail(user.email);
 
     if(isUserValid && !isUserValid.isDeleted){
-      return true;
+      return user;
     }else{
       return false;
     } 
