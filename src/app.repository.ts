@@ -43,6 +43,17 @@ export class AppRepository implements IAppRepository {
     }
   }
 
+
+  public async updateUserBalance(_id: string, balance:number): Promise<IUser> {
+    try {
+      return await this.userModel.findByIdAndUpdate({_id:_id},{balance:balance},{new:true});
+    } catch (e) {
+      throw new InternalServerErrorException(e);
+    }
+  }
+
+  
+
   public async getAllUsers(
     limit: number,
     page: number,

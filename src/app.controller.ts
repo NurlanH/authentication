@@ -1,9 +1,7 @@
-import { Body, Controller, Get, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
-import { Ctx, EventPattern, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
-import { Request, Response } from 'express';
+import { Body, Controller  } from '@nestjs/common';
+import {  MessagePattern, Payload } from '@nestjs/microservices';
 import { AppService } from './app.service';
-import { JwtAuthGuard } from './auth/jwt.guard';
-import { QueryDTO, SignInDTO, SignUpDTO } from './dto';
+import { SignInDTO, SignUpDTO } from './dto';
 
 @Controller()
 export class AppController {
@@ -29,6 +27,12 @@ export class AppController {
 
   @MessagePattern({ cmd: 'validate_user' })
   async validateUser(@Payload() data: any):Promise<any> {
-    return await this.appService.validateUser(data);
+    return await this.appService.validateUser(data);``
   }
+
+  @MessagePattern({ cmd: 'pay_order' })
+  async payOrder(@Payload() data: any):Promise<any> {
+    return await this.appService.payOrder(data);
+  }
+  
 }

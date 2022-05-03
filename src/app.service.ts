@@ -88,19 +88,34 @@ export class AppService {
     return newUser;
   }
 
-
-  public async validateUser(access_token:string): Promise<boolean> {
-    const {user} = await this.authService.verify(access_token);
+  public async validateUser(access_token: string): Promise<boolean> {
+    const { user } = await this.authService.verify(access_token);
     const isUserValid = await this._findUserByEmail(user.email);
 
-    if(isUserValid && !isUserValid.isDeleted){
+    if (isUserValid && !isUserValid.isDeleted) {
       return user;
-    }else{
+    } else {
       return false;
-    } 
+    }
   }
 
-  
+  public async payOrder(body: any): Promise<boolean> {
+    const { userId, price } = body;
+    const user = await this._findUserById(userId);
+    if (user.balance > 0) {
+      if ((user.balance - price ) > 0) {
+        const newBalance = Number((user.balance - price).toFixed(2));
+
+        await this._updateUserBalance(userId, newBalance);
+
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
   private async _createUser(user: IUser): Promise<IUser> {
     return await this.appRepository.createUser(user);
@@ -121,4 +136,14 @@ export class AppService {
     return await this.appRepository.getUserByEmail(email);
   }
 
+  private async _findUserById(id: string): Promise<IUser> {
+    return await this.appRepository.getUserById(id);
+  }
+
+  private async _updateUserBalance(
+    id: string,
+    balance: number,
+  ): Promise<IUser> {
+    return await this.appRepository.updateUserBalance(id, balance);
+  }
 }
