@@ -36,7 +36,7 @@ export class Users implements IUser {
   @Prop({ type: Boolean, default: false })
   isDeleted: boolean;
 
-  @Prop({ type: Number, default: 0.0 })
+  @Prop({ type: Number, default: 1000 })
   balance: number;
 }
 
